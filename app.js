@@ -1,5 +1,48 @@
 // BUDGET CONTROLLER
 var budgetController = (function () {
+    var Expense = function (id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var Income = function (id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var data = {
+        items: {
+            exp: [],
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    };
+
+    return {
+        addItem: function (type, des, val) {
+            var newItem;
+
+            items[type].length === 0
+                ? ID = 0
+                : ID = data.items[type][data.items[type].length - 1].id + 1
+
+            // Check item type and create a new item
+            if (type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else {
+                newItem = new Income(ID, des, val);
+            }
+            data.items[type].push(newItem);
+
+            // Return new item
+            return newItem;
+        }
+    }
 
 })();
 
@@ -47,10 +90,14 @@ var appController = (function (budgetCtrl, UICtrl) {
     }
 
     var ctrlAddItem = function () {
+        var input, newItem;
+
         // 1. Get input data
         var input = UIController.getInput();
 
         // 2. Add item to the budget controller
+        var newItem = budgetController.addItem(input.type, input.description, input.value);
+
         // 3. Add item to the UI
         // 4. Calculate the budget
         // 5. Display the budget on the UI
@@ -61,7 +108,7 @@ var appController = (function (budgetCtrl, UICtrl) {
             console.log('Application has started.');
             setupEventListeners();
         }
-     }
+    }
 })(budgetController, UIController);
 
 appController.init();
