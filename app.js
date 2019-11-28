@@ -31,7 +31,21 @@ var UIController = (function () {
 // GLOBAL APP CONTROLLER
 var appController = (function (budgetCtrl, UICtrl) {
 
-    var DOM = UIController.getDOMstrings;
+    var setupEventListeners = function () {
+        var DOM = UIController.getDOMstrings;
+
+        // Event listener for mouse click
+        document.querySelector(DOM.addBtn).addEventListener('click', ctrlAddItem);
+
+        // Event listener for enter key
+        document.addEventListener('keydown', function (event) {
+            // Older browsers event may have which instead of keyCode property
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        })
+    }
+
     var ctrlAddItem = function () {
         // 1. Get input data
         var input = UIController.getInput();
@@ -42,13 +56,12 @@ var appController = (function (budgetCtrl, UICtrl) {
         // 5. Display the budget on the UI
     }
 
-    document.querySelector(DOM.addBtn).addEventListener('click', ctrlAddItem);
-
-    //Event listener for enter key
-    document.addEventListener('keydown', function (event) {
-        // Older browsers event may have which instead of keyCode property
-        if (event.keyCode === 13 || event.which === 13) {
-            ctrlAddItem();
+    return {
+        init: function () {
+            console.log('Application has started.');
+            setupEventListeners();
         }
-    })
+     }
 })(budgetController, UIController);
+
+appController.init();
