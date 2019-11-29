@@ -129,10 +129,10 @@ var UIController = (function () {
             if (type === 'inc') {
                 // Create  HTML string with placeholder text
                 element = DOMstrings.incomeContainer;
-                html = '<div class="item clearfix" id="income-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
+                html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
             } else {
                 element = DOMstrings.expenseContainer;
-                html = '<div class="item clearfix" id="expense-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
+                html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
             }
 
             // Replace placeholder text with actual data
@@ -142,6 +142,12 @@ var UIController = (function () {
 
             // Insert HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+        },
+
+        deleteListItem: function (selectorID) {
+            var el;
+            el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
         },
 
         clearFields: function () {
@@ -231,7 +237,7 @@ var appController = (function (budgetCtrl, UICtrl) {
     var ctrlDeleteItem = function (event) {
         var itemID, splitID, type, ID;
 
-        itemID = event.target.parentNode.parentNode.parentNode.id;
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
         if (itemID) {
             // Separate item id
@@ -243,9 +249,10 @@ var appController = (function (budgetCtrl, UICtrl) {
             budgetController.deleteItem(type, ID);
 
             // 2. Delete item from the UI
+            UIController.deleteListItem(itemID);
 
             // 3. Update new budget
-
+            updateBudget();
         }
     };
 
