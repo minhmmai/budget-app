@@ -7,3 +7,5 @@ To run the demo of this project on your local environment please do the followin
 git clone https://github.com/minhmmai/laptop-store.git
 
 2. To start the project, open index.html in your browser
+
+Demo: https://develop.d111kn08pkz206.amplifyapp.com/
